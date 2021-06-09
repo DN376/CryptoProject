@@ -1,0 +1,25 @@
+<html>
+
+<body>
+
+<h1>"Cryptocurrencies"</h1>
+
+{% for i in data %}
+
+<div>
+
+<p><em>{{i.name}}</em></p>
+
+<p>{{i.symbol}}</p>
+
+<p> {{i.slug}} </p>
+
+<p> {{i.quote.CAD.price}} </p>
+
+</br>
+
+
+{% endfor %}
+</body>
+
+</html>
