@@ -7,6 +7,7 @@
 <h1>Cryptocurrencies</h1>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 {% for coin in data %}
 >>>>>>> 0cd1be2 (changed name of variable)
@@ -35,16 +36,32 @@
 <p><em>{{coin.name}}</em></p>
 
 <p>{{coin.symbol}}</p>
+=======
 
-<p> {{coin.slug}} </p>
+>>>>>>> c480153 (Displayed information in a table format)
 
-<p> {{coin.quote.CAD.price}} </p>
+<div>
 
-</br>
+<table>
+  <tr>
+    <th>Coin</th>
+    <th>Symbol</th>
+    <th>Current Price (CAD)</th>
+  </tr>
+  {% for coin in data %}
+  <tr>
+    <td>{{coin.name}}</td>
+    <td>{{coin.symbol}}</td>
+    <td>{{coin.quote.CAD.price}}</td>
+  </tr>
+  {% endfor %}
+</table>
 
-
+<<<<<<< HEAD
 {% endfor %}
 >>>>>>> 0cd1be2 (changed name of variable)
+=======
+>>>>>>> c480153 (Displayed information in a table format)
 </body>
 
 </html>
