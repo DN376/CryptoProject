@@ -41,5 +41,11 @@ th {
     font-size: 40px;
 =======
     width : 100%
+<<<<<<< HEAD
 >>>>>>> c9f6d5e (added css file. used css style in html page.)
+=======
+}
+td {
+    text-align: center;
+>>>>>>> 7bf8fbd (center-aligned data text)
 }
