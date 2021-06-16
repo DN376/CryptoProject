@@ -47,15 +47,18 @@
 
 <table>
   <tr>
-    <th>Coin</th>
-    <th>Symbol</th>
-    <th>Current Price (CAD)</th>
+    <th>{{header.name}}</th>
+    <th>{{header.symbol}}</th>
+    <th>{{header.price}}</th>
+    <th>{{header.marketCap}}</th>
   </tr>
+
   {% for coin in data %}
   <tr>
     <td>{{coin.name}}</td>
     <td>{{coin.symbol}}</td>
-    <td>{{coin.quote.CAD.price}}</td>
+    <td>{{coin.price}}</td>
+    <td>{{coin.marketCap}}</td>
   </tr>
   {% endfor %}
 </table>
