@@ -49,10 +49,11 @@ def coinsHome():
         apiData = json.loads(response.text)
         coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
         for c in apiData['data']:
-          coinData = Coin(c['name'],
-          c['symbol'],
-          c['quote']['CAD']['price'],
-          c['quote']['CAD']['market_cap'])
+          coinData = Coin(
+            c['name'],
+            c['symbol'],
+            c['quote']['CAD']['price'],
+            c['quote']['CAD']['market_cap'])
           apiCoins.append(coinData)
 >>>>>>> e4b690b (unified data, made coin class.)
         return render_template('coin.html', data=apiCoins, header=coinHeader)
