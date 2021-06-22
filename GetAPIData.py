@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
+import math
+from coin import Coin
 
 app = Flask(__name__)
 
@@ -18,6 +20,7 @@ headers = {
 
 session = Session()
 session.headers.update(headers)
+apiCoins = []
 
 @app.route('/')
 @app.route('/coins')
@@ -25,7 +28,15 @@ def coinsHome():
     try:
         response = session.get(url, params=parameters)
         apiData = json.loads(response.text)
-        return render_template('coin.html', data=apiData['data'])
+        coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
+        for c in apiData['data']:
+          coinData = Coin(
+            c['name'],
+            c['symbol'],
+            math.floor(c['quote']['CAD']['price']*100)/100,
+            math.floor( (c['quote']['CAD']['market_cap']) *100)/100)
+          apiCoins.append(coinData)
+        return render_template('coin.html', data=apiCoins, header=coinHeader)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
 

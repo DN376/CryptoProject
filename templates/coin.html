@@ -1,25 +1,31 @@
 <html>
-
+<head>
+  <link rel="stylesheet" type= "text/css" href= "{{url_for('static',filename='styles/style.css') }}">
+</head>
 <body>
 
-<h1>"Cryptocurrencies"</h1>
+<h1>Cryptocurrencies</h1>
 
-{% for i in data %}
 
 <div>
+<table class="center ;margin-left:auto;margin-right:auto;">
+  <tr>
+    <th>{{header.name}}</th>
+    <th>{{header.symbol}}</th>
+    <th>{{header.price}}</th>
+    <th>{{header.marketCap}}</th>
+  </tr>
 
-<p><em>{{i.name}}</em></p>
+  {% for coin in data %}
+  <tr>
+    <td>{{coin.name}}</td>
+    <td>{{coin.symbol}}</td>
+    <td>{{coin.price}}</td>
+    <td>{{coin.marketCap}}</td>
+  </tr>
+  {% endfor %}
+</table>
 
-<p>{{i.symbol}}</p>
-
-<p> {{i.slug}} </p>
-
-<p> {{i.quote.CAD.price}} </p>
-
-</br>
-
-
-{% endfor %}
 </body>
 
 </html>
