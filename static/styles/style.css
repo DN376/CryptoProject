@@ -1,0 +1,41 @@
+table {
+    width : 95%;
+    border-collapse : collapse;
+}
+
+td {
+    text-align: center;
+    height : 75px;
+    font-family: "Verdana","Courier New", sans-serif;
+}
+
+table, th, td {
+    border: 1px solid black;
+    height: 50px;
+} 
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    font-family: "Georgia", serif;
+    text-align: center;
+    height: 50px;
+    font-size: 100px;
+}
+
+tr:nth-child(even){
+    background-color: #dddddd;
+}
+
+tr:hover{
+    background-color: #bebebe;
+}
+
+th {
+    background-color: #ffbb00;
+    font-family: "Courier New", monospace;
+    font-size: 40px;
+}
