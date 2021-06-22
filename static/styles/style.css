@@ -6,6 +6,7 @@ table {
 td {
     text-align: center;
     height : 75px;
+    font-family: "Verdana","Courier New", sans-serif;
 }
 
 table, th, td {
@@ -19,16 +20,22 @@ table, th, td {
 }
 
 h1 {
-    font-family: "Copperplate", fantasy;
+    font-family: "Georgia", serif;
     text-align: center;
     height: 50px;
     font-size: 100px;
 }
 
 tr:nth-child(even){
-    background-color: #d4d4d4;
+    background-color: #dddddd;
+}
+
+tr:hover{
+    background-color: #bebebe;
 }
 
 th {
     background-color: #ffbb00;
+    font-family: "Courier New", monospace;
+    font-size: 40px;
 }
