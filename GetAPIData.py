@@ -22,20 +22,21 @@ session = Session()
 session.headers.update(headers)
 apiCoins = []
 
+response = session.get(url, params=parameters)
+apiData = json.loads(response.text)
+coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
+for c in apiData['data']:
+  coinData = Coin(
+    c['name'],
+    c['symbol'],
+    math.floor(c['quote']['CAD']['price']*100)/100,
+    math.floor( (c['quote']['CAD']['market_cap']) *100)/100)
+  apiCoins.append(coinData)
+
 @app.route('/')
 @app.route('/coins')
 def coinsHome():
     try:
-        response = session.get(url, params=parameters)
-        apiData = json.loads(response.text)
-        coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
-        for c in apiData['data']:
-          coinData = Coin(
-            c['name'],
-            c['symbol'],
-            math.floor(c['quote']['CAD']['price']*100)/100,
-            math.floor( (c['quote']['CAD']['market_cap']) *100)/100)
-          apiCoins.append(coinData)
         return render_template('coin.html', data=apiCoins, header=coinHeader)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
