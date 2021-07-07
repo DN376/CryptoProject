@@ -65,7 +65,7 @@ def coinsHome():
       for c in coinQueries:
         coinData = Coin(
           c.name,
-          c.price,
+          c.symbol,
           math.floor(c.price*100)/100,
           math.floor( (c.marketCap)*100)/100
         )
