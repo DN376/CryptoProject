@@ -29,7 +29,7 @@ headers = {
 
 apiSession = Session()
 apiSession.headers.update(headers)
-apiCoins = []
+
 
 response = apiSession.get(url, params=parameters)
 apiData = json.loads(response.text)
@@ -56,7 +56,12 @@ session.commit()
 @app.route('/coins')
 def coinsHome(): 
     try:
-      coinQueries = session.query(Coins).all()
+      apiCoins = []
+      cEngine = create_engine('sqlite:///coins_db.db')
+      Base.metadata.bind = cEngine
+      cDBSession = sessionmaker(bind=cEngine)
+      cSession = cDBSession()
+      coinQueries = cSession.query(Coins).all()
       for c in coinQueries:
         coinData = Coin(
           c.name,
