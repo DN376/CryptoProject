@@ -10,12 +10,14 @@ from coin_database import Base, Coins
 from sqlalchemy import exists
 
 app = Flask(__name__)
-engine = create_engine('sqlite:///coins_db.db')
-Base.metadata.bind = engine
+def createSession():
+  engine = create_engine('sqlite:///coins_db.db')
+  Base.metadata.bind = engine
 
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+  DBSession = sessionmaker(bind=engine)
+  return DBSession()
 
+session = createSession()
 url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 parameters = {
   'start':'1',
@@ -57,10 +59,7 @@ session.commit()
 def coinsHome(): 
     try:
       apiCoins = []
-      cEngine = create_engine('sqlite:///coins_db.db')
-      Base.metadata.bind = cEngine
-      cDBSession = sessionmaker(bind=cEngine)
-      cSession = cDBSession()
+      cSession = createSession()
       coinQueries = cSession.query(Coins).all()
       for c in coinQueries:
         coinData = Coin(
