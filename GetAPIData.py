@@ -17,42 +17,44 @@ def createSession():
   DBSession = sessionmaker(bind=engine)
   return DBSession()
 
-session = createSession()
-url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-parameters = {
-  'start':'1',
-  'limit':'10',
-  'convert':'CAD'
-}
-headers = {
-  'Accepts': 'application/json',
-  'X-CMC_PRO_API_KEY': '57b0aad8-c20d-4c66-84f6-29a84f550a17',
-}
+def init():
+  url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
+  parameters = {
+    'start':'1',
+    'limit':'10',
+    'convert':'CAD'
+  }
+  headers = {
+    'Accepts': 'application/json',
+    'X-CMC_PRO_API_KEY': '57b0aad8-c20d-4c66-84f6-29a84f550a17',
+  }
 
-apiSession = Session()
-apiSession.headers.update(headers)
+  apiSession = Session()
+  apiSession.headers.update(headers)
 
 
-response = apiSession.get(url, params=parameters)
-apiData = json.loads(response.text)
-coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
+  response = apiSession.get(url, params=parameters)
+  apiData = json.loads(response.text)
+  session = createSession()
 
-for c in apiData['data']:
-  newItem = Coins(
-    name=c['name'],
-    symbol=c['symbol'],
-    price=math.floor(c['quote']['CAD']['price']*100)/100,
-    marketCap=math.floor( (c['quote']['CAD']['market_cap']) *100)/100,
-    id=c['id']
-  )
-  exists = session.query(Coins).filter_by(id = c['id']).one()
-  if exists is not None:
-    coin = session.query(Coins).filter_by(id = c['id']).one()
-    coin.price = newItem.price
-    coin.marketCap = newItem.marketCap
-  else:
-    session.add(newItem)
-session.commit()
+  for c in apiData['data']:
+    newItem = Coins(
+      name=c['name'],
+      symbol=c['symbol'],
+      price=math.floor(c['quote']['CAD']['price']*100)/100,
+      marketCap=math.floor((c['quote']['CAD']['market_cap']) *100)/100,
+      id=c['id']
+    )
+    exists = session.query(Coins).filter_by(id = c['id']).one()
+    if exists is not None:
+      coin = session.query(Coins).filter_by(id = c['id']).one()
+      coin.price = newItem.price
+      coin.marketCap = newItem.marketCap
+    else:
+      session.add(newItem)
+  session.commit()
+
+init()
 
 @app.route('/')
 @app.route('/coins')
@@ -61,12 +63,13 @@ def coinsHome():
       apiCoins = []
       cSession = createSession()
       coinQueries = cSession.query(Coins).all()
+      coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
       for c in coinQueries:
         coinData = Coin(
           c.name,
           c.symbol,
           math.floor(c.price*100)/100,
-          math.floor( (c.marketCap)*100)/100
+          math.floor((c.marketCap)*100)/100
         )
         apiCoins.append(coinData)
       return render_template('coin.html', data=apiCoins, header=coinHeader)
