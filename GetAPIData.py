@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from coin import Coin
 from coin_database import Base, Coins
 from sqlalchemy import exists
+import threading
 
 app = Flask(__name__)
 def createSession():
@@ -31,28 +32,40 @@ def init():
 
   apiSession = Session()
   apiSession.headers.update(headers)
+  numTimesUpdated = 0
+  def update(index):
+    updateTimer = threading.Timer(5.0, update, [index+1])
+    updateTimer.start()
+    print (index)
+    if index >= 3:
+      print("cancelled thread")
+      updateTimer.cancel()
+    
+    print("\nupdated",flush=True)
 
+    response = apiSession.get(url, params=parameters)
+    apiData = json.loads(response.text)
+    session = createSession()
 
-  response = apiSession.get(url, params=parameters)
-  apiData = json.loads(response.text)
-  session = createSession()
-
-  for c in apiData['data']:
-    newItem = Coins(
-      name=c['name'],
-      symbol=c['symbol'],
-      price=math.floor(c['quote']['CAD']['price']*100)/100,
-      marketCap=math.floor((c['quote']['CAD']['market_cap']) *100)/100,
-      id=c['id']
-    )
-    exists = session.query(Coins).filter_by(id = c['id']).one()
-    if exists is not None:
-      coin = session.query(Coins).filter_by(id = c['id']).one()
-      coin.price = newItem.price
-      coin.marketCap = newItem.marketCap
-    else:
-      session.add(newItem)
-  session.commit()
+    for c in apiData['data']:
+      newItem = Coins(
+        name=c['name'],
+        symbol=c['symbol'],
+        price=math.floor(c['quote']['CAD']['price']*100)/100,
+        marketCap=math.floor((c['quote']['CAD']['market_cap']) *100)/100,
+        id=c['id']
+      )
+      exists = session.query(Coins).filter_by(id = c['id']).one()
+      if exists is not None:
+        coin = session.query(Coins).filter_by(id = c['id']).one()
+        print("updated " + coin.name + " from " + str(coin.price) + " to " + str(newItem.price))
+        coin.price = newItem.price
+        coin.marketCap = newItem.marketCap
+      else:
+        session.add(newItem)
+        print("created" + coin.name + "at")
+    session.commit()
+  update(numTimesUpdated)
 
 init()
 
