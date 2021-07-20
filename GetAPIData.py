@@ -34,7 +34,7 @@ def init():
   apiSession.headers.update(headers)
   numTimesUpdated = 0
   def update(index):
-    updateTimer = threading.Timer(5.0, update, [index+1])
+    updateTimer = threading.Timer(60.0, update, [index+1])
     updateTimer.start()
     print (index)
     if index >= 3:
@@ -55,7 +55,7 @@ def init():
         marketCap=math.floor((c['quote']['CAD']['market_cap']) *100)/100,
         id=c['id']
       )
-      exists = session.query(Coins).filter_by(id = c['id']).one()
+      exists = session.query(Coins).filter_by(id = c['id']).first()
       if exists is not None:
         coin = session.query(Coins).filter_by(id = c['id']).one()
         print("updated " + coin.name + " from " + str(coin.price) + " to " + str(newItem.price))
