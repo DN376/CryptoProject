@@ -2,10 +2,7 @@ from flask import Flask, render_template
 from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
-<<<<<<< HEAD
 import math
-=======
->>>>>>> e4b690b (unified data, made coin class.)
 from coin import Coin
 
 app = Flask(__name__)
@@ -24,7 +21,6 @@ headers = {
 session = Session()
 session.headers.update(headers)
 apiCoins = []
-<<<<<<< HEAD
 
 response = session.get(url, params=parameters)
 apiData = json.loads(response.text)
@@ -36,26 +32,11 @@ for c in apiData['data']:
     math.floor(c['quote']['CAD']['price']*100)/100,
     math.floor( (c['quote']['CAD']['market_cap']) *100)/100)
   apiCoins.append(coinData)
-=======
->>>>>>> e4b690b (unified data, made coin class.)
 
 @app.route('/')
 @app.route('/coins')
 def coinsHome():
     try:
-<<<<<<< HEAD
-=======
-        response = session.get(url, params=parameters)
-        apiData = json.loads(response.text)
-        coinHeader =  Coin("Coin", "Name","Price", "Market Cap")
-        for c in apiData['data']:
-          coinData = Coin(
-            c['name'],
-            c['symbol'],
-            c['quote']['CAD']['price'],
-            c['quote']['CAD']['market_cap'])
-          apiCoins.append(coinData)
->>>>>>> e4b690b (unified data, made coin class.)
         return render_template('coin.html', data=apiCoins, header=coinHeader)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)

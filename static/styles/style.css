@@ -1,6 +1,4 @@
 table {
-<<<<<<< HEAD
-<<<<<<< HEAD
     width : 95%;
     border-collapse : collapse;
 }
@@ -40,17 +38,6 @@ th {
     background-color: #ffbb00;
     font-family: "Courier New", monospace;
     font-size: 40px;
-=======
-    width : 100%
-<<<<<<< HEAD
->>>>>>> c9f6d5e (added css file. used css style in html page.)
-=======
-}
-td {
-    text-align: center;
->>>>>>> 7bf8fbd (center-aligned data text)
-=======
-    width : 100%;
     border-collapse : collapse;
 }
 td {
@@ -59,5 +46,4 @@ td {
 }
 table, th, td {
     border: 3px solid black;
->>>>>>> c7d791e (data now has certain height and border)
 }
