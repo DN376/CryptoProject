@@ -38,4 +38,12 @@ th {
     background-color: #ffbb00;
     font-family: "Courier New", monospace;
     font-size: 40px;
+    border-collapse : collapse;
+}
+td {
+    text-align: center;
+    height : 50px;
+}
+table, th, td {
+    border: 3px solid black;
 }
