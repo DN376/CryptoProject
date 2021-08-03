@@ -1,10 +1,11 @@
 <html>
 <head>
-  <link rel="stylesheet" type= "text/css" href= "{{url_for('static',filename='styles/style.css') }}">
+  <link rel="stylesheet" type= "text/css" href= "{{url_for('static',filename='styles/mainpage.css') }}">
 </head>
 <body>
 
 <h1>Cryptocurrencies</h1>
+
 
 <div>
 <table class="center ;margin-left:auto;margin-right:auto;">
@@ -19,8 +20,8 @@
   <tr>
     <td>{{coin.name}}</td>
     <td>{{coin.symbol}}</td>
-    <td>${{coin.price}} CAD</td>
-    <td>{{coin.marketCap}} {{coin.symbol}}</td>
+    <td>{{coin.price | currencyFormat }}</td>
+    <td>{{coin.marketCap | marketCapFormat }}</td>
   </tr>
   {% endfor %}
 </table>
