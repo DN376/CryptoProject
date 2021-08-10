@@ -69,12 +69,10 @@ def init():
 
 init()
 
-@app.template_filter()
 def currencyFormat(value):
     v = float(value)
     return "${:,.2f} CAD".format(value)
 
-@app.template_filter()
 def marketCapFormat(value):
     v = float(value)
     lenVal = len("{:,.0f}".format(value))
@@ -88,8 +86,7 @@ def marketCapFormat(value):
       val = math.floor(v/100)*100 
       return "${:,.2f}K CAD".format(value/100)
     return "{:,.2f}".format(value)
-app.add_template_filter(currencyFormat)
-app.add_template_filter(marketCapFormat)
+
 @app.route('/')
 @app.route('/coins')
 def coinsHome(): 
@@ -102,8 +99,8 @@ def coinsHome():
         coinData = Coin(
           c.name,
           c.symbol,
-          math.floor(c.price*100)/100,
-          math.floor((c.marketCap)*100)/100
+          currencyFormat(c.price),
+          marketCapFormat(c.marketCap)
         )
         apiCoins.append(coinData)
       return render_template('coin.html', data=apiCoins, header=coinHeader)
